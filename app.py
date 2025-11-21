@@ -5,7 +5,7 @@ import re
 app = Flask(__name__)
 
 # ---------- Load Excel ----------
-excel_file = r"C:\Users\Aryan\Desktop\Transport App\TRANSPORT CHARGES._.xlsx"
+excel_file = "TRANSPORT CHARGES._.xlsx"
 sheet = pd.read_excel(excel_file, sheet_name="JAIDURGA LOGISTIC", header=None)
 
 records = []
