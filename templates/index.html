@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Find Cheapest Transporter</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        select, button { padding: 5px; margin: 5px 0; }
+        table { border-collapse: collapse; margin-top: 20px; width: 60%; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<h2>Find Cheapest Transporter</h2>
+
+<form id="transportForm">
+    <label for="weight">Weight:</label>
+    <select name="weight" id="weight" required>
+        {% for w in weights %}
+        <option value="{{ w }}">{{ w }}</option>
+        {% endfor %}
+    </select>
+    <br>
+
+    <label for="location">Location:</label>
+    <select name="location" id="location" required>
+        {% for l in locations %}
+        <option value="{{ l }}">{{ l }}</option>
+        {% endfor %}
+    </select>
+    <br>
+
+    <button type="submit">Get Recommendations</button>
+</form>
+
+<div id="results"></div>
+
+<script>
+document.getElementById('transportForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); // prevent page reload
+
+    const formData = new FormData(this);
+    const response = await fetch('/get_recommendations', {
+        method: 'POST',
+        body: formData
+    });
+    const data = await response.text();
+    document.getElementById('results').innerHTML = data;
+
+    // ✅ Keep the selected values
+    const weight = formData.get('weight');
+    const location = formData.get('location');
+    document.getElementById('weight').value = weight;
+    document.getElementById('location').value = location;
+});
+</script>
+</body>
+</html>
